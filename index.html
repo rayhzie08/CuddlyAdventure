@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>📖 Diary Rayhze</title>
+  <!-- Google Font & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fce9ec 0%, #fff3e6 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Quicksand', sans-serif;
+      padding: 16px;
+      margin: 0;
+    }
+
+    /* BUKU UTAMA */
+    .buku-diary {
+      max-width: 760px;
+      width: 100%;
+      background: #fff6ee;
+      background-image: 
+        linear-gradient(rgba(255, 210, 200, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 210, 200, 0.15) 1px, transparent 1px);
+      background-size: 32px 32px;
+      border-radius: 32px 32px 28px 28px;
+      box-shadow: 0 24px 48px rgba(200, 120, 120, 0.25),
+                  0 8px 20px rgba(200, 100, 100, 0.15),
+                  inset 0 -8px 0 #f5c0b0;
+      padding: 28px 22px 32px;
+      position: relative;
+      border: 5px solid #fad6c4;
+      transition: all 0.2s;
+    }
+
+    /* hiasan sudut buku */
+    .buku-diary::before {
+      content: "🌸";
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      font-size: 2.4rem;
+      transform: rotate(-12deg);
+      filter: drop-shadow(0 6px 8px rgba(255, 100, 130, 0.3));
+    }
+
+    .buku-diary::after {
+      content: "🧸";
+      position: absolute;
+      bottom: -12px;
+      right: 20px;
+      font-size: 2.8rem;
+      transform: rotate(10deg);
+      filter: drop-shadow(0 6px 8px rgba(255, 130, 130, 0.3));
+    }
+
+    /* ===== PROFIL DI ATAS ===== */
+    .profil-container {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: #fff8f0;
+      padding: 14px 20px 14px 14px;
+      border-radius: 80px 80px 40px 40px;
+      border: 3px solid #fad0c0;
+      box-shadow: inset 0 -4px 0 #eeb8a8, 0 6px 14px rgba(200, 120, 120, 0.12);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .profil-avatar {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #fbb8a8;
+      box-shadow: 0 4px 10px rgba(200, 100, 100, 0.2);
+      background: #ffe0d0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profil-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profil-info {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .profil-info .nama {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #7a3f4a;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .profil-info .nama .nick {
+      font-weight: 600;
+      color: #b86070;
+      font-size: 0.95rem;
+      background: #ffded0;
+      padding: 2px 14px;
+      border-radius: 60px;
+      border: 2px solid #fbb8a8;
+    }
+
+    .profil-info .bio {
+      font-size: 0.9rem;
+      color: #8f5a62;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .profil-info .bio .birth {
+      background: #ffded0;
+      padding: 2px 14px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #7a404a;
+      border: 2px solid #fbb8a8;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .profil-info .bio .mbti {
+      background: #ffded0;
+      padding: 2px 14px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #7a404a;
+      border: 2px solid #fbb8a8;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .profil-info .quote {
+      font-size: 0.85rem;
+      color: #a56a72;
+      font-weight: 500;
+      margin-top: 2px;
+      font-style: italic;
+      letter-spacing: 0.2px;
+    }
+
+    .profil-info .quote i {
+      color: #d4868a;
+      margin-right: 4px;
+    }
+
+    /* HEADER BUKU (judul) */
+    .header-buku {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 4px dashed #fbc2b0;
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .judul-buku {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .judul-buku h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #b8556b;
+      letter-spacing: 1px;
+      text-shadow: 5px 5px 0 #ffe0d4;
+      line-height: 1.1;
+    }
+
+    .judul-buku i {
+      font-size: 2.6rem;
+      color: #e87a8e;
+      animation: goyang 2.5s infinite ease-in-out;
+    }
+
+    /* Halaman slide */
+    .halaman-buku {
+      background: #fffcf5;
+      border-radius: 40px 40px 30px 30px;
+      padding: 12px 8px 8px 8px;
+      box-shadow: inset 0 0 0 3px #ffe0d0, 0 14px 24px -10px rgba(180, 90, 90, 0.2);
+      border: 2px solid #ffd4be;
+      margin: 8px 0 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-container {
+      display: flex;
+      align-items: stretch;
+      transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+      will-change: transform;
+      min-height: 300px;
+      padding: 6px 0;
+    }
+
+    .slide-item {
+      flex: 0 0 100%;
+      padding: 18px 20px 20px 20px;
+      background: #fffbf5;
+      border-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 260px;
+      box-shadow: inset 0 0 0 1px #fce1d4;
+      margin: 0 6px;
+    }
+
+    .slide-item .isi-catatan {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #392a2a;
+      line-height: 1.7;
+      word-break: break-word;
+      background: rgba(255, 235, 220, 0.3);
+      padding: 16px 20px;
+      border-radius: 60px 60px 30px 30px;
+      border-left: 12px solid #fbaa9a;
+      box-shadow: 0 2px 6px rgba(255, 150, 130, 0.1);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 130px;
+    }
+
+    .slide-item .emoji-dekor {
+      font-size: 2.8rem;
+      margin-bottom: 6px;
+      text-align: center;
+      filter: drop-shadow(0 4px 4px rgba(255, 120, 120, 0.2));
+    }
+
+    .slide-item .tanggal-catatan {
+      display: inline-block;
+      background: #ffded0;
+      padding: 6px 18px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #7a404a;
+      border: 2px solid #fbb8a8;
+      box-shadow: inset 0 -3px 0 #cf9284;
+      margin-top: 12px;
+      letter-spacing: 0.3px;
+      align-self: center;
+    }
+
+    .slide-item .tanggal-catatan i {
+      margin-right: 8px;
+      color: #d86a7a;
+    }
+
+    /* navigasi */
+    .nav-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin-top: 18px;
+      padding: 8px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn-nav {
+      background: #ffdad0;
+      border: 4px solid #fbb8a8;
+      padding: 12px 28px;
+      border-radius: 80px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #743f4a;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: 0.15s;
+      cursor: pointer;
+      box-shadow: 0 8px 0 #c5887a;
+      background: #ffd4c4;
+      font-family: 'Quicksand', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-nav:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #c5887a;
+    }
+
+    .btn-nav i {
+      font-size: 1.6rem;
+      color: #a54b5a;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.5;
+      transform: translateY(4px);
+      box-shadow: 0 4px 0 #c5887a;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+
+    .indikator-halaman {
+      background: #ffded2;
+      padding: 6px 20px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #804a52;
+      border: 2px solid #fbb8a8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: inset 0 -3px 0 #cf9284;
+    }
+
+    .indikator-halaman i {
+      color: #e6757a;
+    }
+
+    .aksi-lucu {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .btn-lucu {
+      background: #ffdbd0;
+      border: 3px solid #f8b0a0;
+      padding: 12px 24px;
+      border-radius: 80px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #5f3340;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: 0.15s;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #c28272;
+      background: #ffe0d0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .btn-lucu:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 #c28272;
+    }
+
+    .btn-lucu i {
+      font-size: 1.6rem;
+      color: #b3535a;
+    }
+
+    @keyframes goyang {
+      0%, 100% { transform: rotate(-4deg) scale(1); }
+      50% { transform: rotate(6deg) scale(1.08); }
+    }
+
+    @media (max-width: 550px) {
+      .buku-diary { padding: 20px 12px 28px; }
+      .profil-container { padding: 10px 14px 10px 10px; gap: 12px; }
+      .profil-avatar { width: 56px; height: 56px; }
+      .profil-info .nama { font-size: 1.1rem; }
+      .profil-info .bio { font-size: 0.75rem; gap: 8px; }
+      .judul-buku h1 { font-size: 1.8rem; }
+      .btn-nav { padding: 8px 18px; font-size: 1rem; }
+      .slide-item .isi-catatan { font-size: 1.1rem; padding: 12px 14px; }
+      .slide-item .tanggal-catatan { font-size: 0.8rem; padding: 4px 14px; }
+      .btn-lucu { font-size: 0.95rem; padding: 8px 16px; }
+    }
+
+    @media (max-width: 400px) {
+      .profil-avatar { width: 48px; height: 48px; }
+      .profil-info .nama { font-size: 1rem; }
+      .judul-buku h1 { font-size: 1.5rem; }
+      .slide-item .isi-catatan { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="buku-diary" id="bukuDiary">
+
+    <!-- ===== PROFIL DI ATAS ===== -->
+    <div class="profil-container">
+      <div class="profil-avatar">
+        <img src="https://i.pinimg.com/736x/d5/14/8f/d5148f198717d4b80f9012316f768e32.jpg" alt="Foto profil Rayhze">
+      </div>
+      <div class="profil-info">
+        <div class="nama">
+          Rayhze Aelvra Fyloria
+          <span class="nick">@Rayhze08</span>
+        </div>
+        <div class="bio">
+          <span class="birth"><i class="fas fa-cake-candles"></i> 27 Dec 2009</span>
+          <span class="mbti"><i class="fas fa-feather"></i> INFP-T</span>
+        </div>
+        <div class="quote">
+          <i class="fas fa-heart" style="color: #e6737a;"></i> ๑ᵔ⤙ᵔ๑ Soft heart, steady steps
+        </div>
+      </div>
+    </div>
+
+    <!-- header buku -->
+    <div class="header-buku">
+      <div class="judul-buku">
+        <i class="fas fa-book-open"></i>
+        <h1>Diaryku</h1>
+      </div>
+      <div style="font-size: 1.8rem; opacity: 0.6;">✨</div>
+    </div>
+
+    <!-- halaman slide -->
+    <div class="halaman-buku">
+      <div class="slide-container" id="slideContainer">
+        <!-- diisi js -->
+      </div>
+    </div>
+
+    <!-- navigasi -->
+    <div class="nav-slide">
+      <button class="btn-nav" id="prevBtn"><i class="fas fa-chevron-left"></i> Sebelum</button>
+      <div class="indikator-halaman">
+        <i class="fas fa-bookmark"></i>
+        <span id="pageIndicator">1 / 3</span>
+      </div>
+      <button class="btn-nav" id="nextBtn">Selanjutnya <i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- aksi ceria -->
+    <div class="aksi-lucu">
+      <button class="btn-lucu" id="acakBtn"><i class="fas fa-shuffle"></i> Acak</button>
+      <button class="btn-lucu" id="loncatBtn"><i class="fas fa-arrow-right"></i> Akhir</button>
+      <button class="btn-lucu" id="resetBtn"><i class="fas fa-home"></i> Awal</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ----- DATA CATATAN DENGAN TANGGAL -----
+      const entries = [
+        { 
+          emoji: '🌸', 
+          text: 'Hari ini ketemu kucing oren gemoy! Dia ngeong-ngeong minta digendong. Akhirnya aku gendong seharian~ 🐱',
+          date: '17 Juli 2026'
+        },
+        { 
+          emoji: '🍕', 
+          text: 'Makan pizza sambil nonton kartun. Keju nya meleleh dan aku ketawa-ketiwi sendiri. Best day ever! ✨',
+          date: '18 Juli 2026'
+        },
+        { 
+          emoji: '☁️', 
+          text: 'Awan bentuknya kayak kelinci raksasa. Aku tersenyum sendiri di taman. Langit biru banget hari ini. 🌤️',
+          date: '19 Juli 2026'
+        },
+        { 
+          emoji: '🧁', 
+          text: 'Bikin cupcake hujan-hujan. Rumah wangi vanila. Aku dan adik comot creamnya pake jari, hihi! 🧁',
+          date: '20 Juli 2026'
+        },
+        { 
+          emoji: '🌈', 
+          text: 'Pelangi muncul setelah hujan. Warnanya cerah banget. Aku foto dan kirim ke teman. Mereka bilang "gemoy!"',
+          date: '21 Juli 2026'
+        },
+        { 
+          emoji: '🦄', 
+          text: 'Mimpi naik unicorn ke bulan. Di sana aku ketemu alien imut yang jual boba. Mimpi aneh tapi lucu! 🌙',
+          date: '22 Juli 2026'
+        }
+      ];
+
+      let currentIndex = 0;
+      const totalSlides = entries.length;
+
+      const slideContainer = document.getElementById('slideContainer');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const pageIndicator = document.getElementById('pageIndicator');
+      const acakBtn = document.getElementById('acakBtn');
+      const loncatBtn = document.getElementById('loncatBtn');
+      const resetBtn = document.getElementById('resetBtn');
+
+      function renderSlides() {
+        if (!slideContainer) return;
+        let html = '';
+        entries.forEach((entry, idx) => {
+          html += `
+            <div class="slide-item" data-slide-index="${idx}">
+              <div class="emoji-dekor">${entry.emoji}</div>
+              <div class="isi-catatan">
+                ${entry.text}
+                <span class="tanggal-catatan"><i class="fas fa-calendar-alt"></i> ${entry.date}</span>
+              </div>
+            </div>
+          `;
+        });
+        slideContainer.innerHTML = html;
+        updateSlidePosition();
+        updateIndikatorDanTombol();
+      }
+
+      function updateSlidePosition() {
+        if (!slideContainer) return;
+        slideContainer.style.transform = `translateX(${-currentIndex * 100}%)`;
+      }
+
+      function updateIndikatorDanTombol() {
+        if (pageIndicator) {
+          pageIndicator.textContent = `${currentIndex + 1} / ${totalSlides}`;
+        }
+        if (prevBtn) prevBtn.disabled = (currentIndex === 0);
+        if (nextBtn) nextBtn.disabled = (currentIndex === totalSlides - 1);
+      }
+
+      function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        if (index === currentIndex) return;
+        currentIndex = index;
+        updateSlidePosition();
+        updateIndikatorDanTombol();
+      }
+
+      function nextSlide() {
+        if (currentIndex < totalSlides - 1) goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        if (currentIndex > 0) goToSlide(currentIndex - 1);
+      }
+
+      function acakHalaman() {
+        if (totalSlides <= 1) return;
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * totalSlides);
+        } while (randomIndex === currentIndex && totalSlides > 1);
+        goToSlide(randomIndex);
+      }
+
+      function lompatKeAkhir() {
+        goToSlide(totalSlides - 1);
+      }
+
+      function keAwal() {
+        goToSlide(0);
+      }
+
+      function init() {
+        renderSlides();
+
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (acakBtn) acakBtn.addEventListener('click', acakHalaman);
+        if (loncatBtn) loncatBtn.addEventListener('click', lompatKeAkhir);
+        if (resetBtn) resetBtn.addEventListener('click', keAwal);
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextSlide();
+          }
+        });
+
+        let startX = 0;
+        let isSwiping = false;
+        const halaman = document.querySelector('.halaman-buku');
+        if (halaman) {
+          halaman.addEventListener('touchstart', function(e) {
+            startX = e.changedTouches[0].screenX;
+            isSwiping = true;
+          }, { passive: true });
+
+          halaman.addEventListener('touchend', function(e) {
+            if (!isSwiping) return;
+            const endX = e.changedTouches[0].screenX;
+            const diff = startX - endX;
+            if (Math.abs(diff) > 40) {
+              if (diff > 0) nextSlide();
+              else prevSlide();
+            }
+            isSwiping = false;
+          }, { passive: true });
+        }
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
